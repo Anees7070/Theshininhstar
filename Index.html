@@ -1,0 +1,481 @@
+<!doctype html>
+<html>
+<head>
+	<title>School website</title>
+	  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@400;700&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+	  <!-- Font Awesome - Moved to HEAD -->
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+/* Navbar Styling */
+.navbar {
+	background: rgba(0, 0, 0, 0.9) !important;
+	backdrop-filter: blur(15px);
+	border-bottom: 1px solid rgba(255,255,255,0.1);
+	padding: 15px 0;
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	width: 100%;
+}
+
+.navbar-brand {
+	color: White !important;
+	font-family: 'Rajdhani', sans-serif;
+	font-weight: 700;
+	font-size: 1.8rem;
+	text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.nav-link {
+	color: white !important;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+	margin: 0 15px;
+	transition: all 0.3s ease;
+	position: relative;
+}
+
+.nav-link::after {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 2px;
+	bottom: -5px;
+	left: 50%;
+	background: #ffc107;
+	transition: all 0.3s ease;
+	transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+	width: 80%;
+}
+
+.nav-link:hover {
+	color: #ffc107 !important;
+	transform: translateY(-2px);
+}
+
+/* Cards Styling */
+.card-section {
+	padding: 80px 0;
+	background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.school-card {
+	background: linear-gradient(145deg, #add8e6, #87ceeb) !important;
+	border: none !important;
+	border-radius: 20px !important;
+	box-shadow: 0 20px 40px rgba(0,150,255,0.2) !important;
+	transition: all 0.4s ease !important;
+	overflow: hidden;
+	position: relative;
+	height:500px !important;
+	min-height: 420px;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 40px;
+}
+
+.school-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 10px;
+	background: linear-gradient(90deg, #ffc107, #ff6b35, #4ecdc4);
+}
+
+.school-card:hover {
+	transform: translateY(-15px) !important;
+	box-shadow: 0 30px 60px rgba(0,150,255,0.3) !important;
+}
+
+.card-body {
+	padding: 40px 30px 30px !important;
+	text-align: center;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.card-title {
+	font-family: 'Rajdhani', sans-serif;
+	font-weight: 700;
+	font-size: 1.6rem;
+	color: #2c3e50;
+	margin-bottom: 20px;
+}
+
+.card-text {
+	font-family: 'Roboto', sans-serif;
+	color: #34495e;
+	line-height: 1.7;
+	margin-bottom: 25px;
+	flex-grow: 1;
+}
+
+/* Apply Button Styling */
+.apply-btn {
+	background: linear-gradient(45deg, #ffc107, #ff6b35);
+	border: none;
+	color: white;
+	padding: 12px 30px;
+	border-radius: 25px;
+	font-family: 'Rajdhani', sans-serif;
+	font-weight: 600;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+	box-shadow: 0 8px 20px rgba(255,193,7,0.3);
+	width: 100%;
+	margin-top: auto;
+}
+
+.apply-btn:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 12px 25px rgba(255,193,7,0.4);
+	color: white !important;
+}
+
+/* Modal Styling */
+.modal-header {
+	background: linear-gradient(45deg, #add8e6, #87ceeb);
+	color: white;
+	border-radius: 15px 15px 0 0 !important;
+}
+
+.modal-title {
+	font-family: 'Rajdhani', sans-serif;
+	font-weight: 700;
+}
+
+/* Footer Styling */
+.footer {
+	background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+	color: white;
+	padding: 60px 0 30px;
+	position: relative;
+	overflow: hidden;
+}
+
+.footer::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: linear-gradient(90deg, #ffc107, #ff6b35, #4ecdc4);
+}
+
+.footer-content {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 40px;
+	margin-bottom: 40px;
+}
+
+.footer-section h5 {
+	font-family: 'Rajdhani', sans-serif;
+	font-weight: 700;
+	font-size: 1.3rem;
+	margin-bottom: 20px;
+	color: #ffc107;
+	position: relative;
+}
+
+.footer-section h5::after {
+	content: '';
+	position: absolute;
+	width: 50px;
+	height: 3px;
+	background: #ffc107;
+	bottom: -8px;
+	left: 0;
+}
+
+.footer-section p, .footer-section a {
+	color: rgba(255,255,255,0.8);
+	line-height: 1.8;
+	transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+	color: #ffc107 !important;
+}
+
+.footer-bottom {
+	border-top: 1px solid rgba(255,255,255,0.1);
+	padding-top: 20px;
+	text-align: center;
+	color: rgba(255,255,255,0.6);
+	font-family: 'Roboto', sans-serif;
+}
+
+.social-icons a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 45px;
+	height: 45px;
+	background: rgba(255,255,255,0.1);
+	border-radius: 50%;
+	margin: 0 8px;
+	transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+	background: #ffc107;
+	transform: translateY(-3px);
+	color: #000 !important;
+}
+</style>
+</head>
+
+<body>
+ <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">The Shining Star</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Staff</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Cards Section -->
+<section class="card-section">
+    <div class="container">
+        <div class="row g-5 justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="card school-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">For Admission</h5>
+                        <p class="card-text">Enrolling in our school is an excellent decision for your children's future. Here, along with education, special attention is given to character building, where students are provided not only with academic knowledge but also opportunities to develop their personalities. Experienced teachers, modern teaching methods, and a peaceful learning environment help students grow and succeed. Our goal is to make every student a responsible and successful individual.</p>
+                        <button class="apply-btn" data-bs-toggle="modal" data-bs-target="#admissionModal">
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card school-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">For Applying Teacher</h5>
+                        <p class="card-text">We are looking for a teacher. The candidate should have at least a relevant degree in the subject along with teaching experience. They should possess strong communication skills, be able to explain concepts in a simple and effective way, and maintain discipline and professionalism. Familiarity with modern teaching methods, as well as an interest in guiding and nurturing students, is essential to help create an excellent learning environment.</p>
+                        <button class="apply-btn" data-bs-toggle="modal" data-bs-target="#teacherModal">
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card school-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">For Applying Peon</h5>
+                        <p class="card-text">We are looking for a peon. The candidate should be responsible and hardworking. They should have basic education and be able to perform daily school tasks such as cleaning, delivering documents, and assisting with small duties efficiently. Punctuality, honesty, and a good attitude towards staff and students are also very important to maintain an organized and peaceful school environment.</p>
+                        <button class="apply-btn" data-bs-toggle="modal" data-bs-target="#peonModal">
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 footer-section">
+                <h5>About School</h5>
+                <p>The Shining Star is committed to providing quality education and holistic development to every student. Established with a vision to empower young girls through education and character building.</p>
+            </div>
+            <div class="col-lg-3 col-md-6 footer-section">
+                <h5>Contact Info</h5>
+                <p><i class="fas fa-phone me-2"></i>+92 355 810769</p>
+                <p><i class="fas fa-envelope me-2"></i><a href="mailto:info@theshiningstar.com">info@theshiningstar.com</a></p>
+                <p><i class="fas fa-map-marker-alt me-2"></i>Main Bazar, Near Masjid Road, Havlei kahutta AJK</p>
+            </div>
+            <div class="col-lg-3 col-md-6 footer-section">
+                <h5>Quick Links</h5>
+                <p><a href="#">Home</a></p>
+                <p><a href="#">Admission</a></p>
+                <p><a href="#">Staff</a></p>
+                <p><a href="#">Contact</a></p>
+            </div>
+            <div class="col-lg-3 col-md-6 footer-section">
+                <h5>Follow Us</h5>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="mt-3"><strong>Admission Email:</strong> <a href="mailto:admission@theshiningstar.com">admission@theshiningstar.com</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Shining Star. All Rights Reserved. | Designed with ❤️ for Education</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Admission Modal -->
+<div class="modal fade modal-lg" id="admissionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Student Admission Form</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                   <table class='table table-bordered table-striped table-hover table-info'>
+<tr>
+	<td colspan='4' align='center' style='font-size:25px; font-weight:bolder;'>Student Registration</td>
+</tr>
+<tr>
+	<td>Name</td>
+	<td><input name='student_name' type='text' class='form-control'></td>
+	<td>Father Name</td>
+	<td><input name='father_name' type='text' class='form-control'></td>
+</tr>
+<tr>
+	<td>Gender</td>
+	<td>
+	    <input name='gender' type='radio' value='Male'> Male
+	    <input name='gender' type='radio' value='Female'> Female
+	</td>
+	<td>Contact</td>
+	<td><input name='contact' type='tel' class='form-control'></td>
+</tr>
+<tr>
+	<td>Age</td>
+	<td><input name='age' type='number' class='form-control'></td>
+	<td>Class For Admission</td>
+	<td><input name='class_admission' type='text' class='form-control'></td>
+</tr>
+                   </table>  
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn apply-btn">Submit Application</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Teacher Modal - FIXED STRUCTURE -->
+<div class="modal fade modal-lg" id="teacherModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Teacher Application Form</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <table class='table table-bordered table-striped table-hover table-warning'>
+<tr>
+	<td colspan='4' align='center' style='font-size:25px; font-weight:bolder;'>Teacher Application</td>
+</tr>
+<tr>
+	<td>Name</td>
+	<td><input name='teacher_name' type='text' class='form-control'></td>
+	<td>Father Name</td>
+	<td><input name='teacher_father' type='text' class='form-control'></td>
+</tr>
+<tr>
+	<td>Gender</td>
+	<td>
+	    <input name='teacher_gender' type='radio' value='Male'> Male
+	    <input name='teacher_gender' type='radio' value='Female'> Female
+	</td>
+	<td>Contact</td>
+	<td><input name='teacher_contact' type='tel' class='form-control'></td>
+</tr>
+<tr>
+	<td>Age</td>
+	<td><input name='teacher_age' type='number' class='form-control'></td>
+	<td>Qualification</td>
+	<td><input name='qualification' placeholder='B.com, M.A, Masters etc.' type='text' class='form-control'></td>
+</tr>
+<tr>
+	<td>Experience</td>
+	<td colspan='3'><input name='experience' type='text' placeholder='Years of teaching experience' class='form-control'></td>
+</tr>
+                    </table>  
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn apply-btn">Submit Application</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Peon Modal - FIXED & TABLE FORMAT -->
+<div class="modal fade modal-lg" id="peonModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Peon Application Form</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <table class='table table-bordered table-striped table-hover table-success'>
+<tr>
+	<td colspan='4' align='center' style='font-size:25px; font-weight:bolder;'>Peon Application</td>
+</tr>
+<tr>
+	<td>Full Name</td>
+	<td><input name='peon_name' type='text' class='form-control'></td>
+	<td>Father Name</td>
+	<td><input name='peon_father' type='text' class='form-control'></td>
+</tr>
+<tr>
+	<td>Gender</td>
+	<td>
+	    <input name='peon_gender' type='radio' value='Male'> Male
+	    <input name='peon_gender' type='radio' value='Female'> Female
+	</td>
+	<td>Contact</td>
+	<td><input name='peon_contact' type='tel' class='form-control'></td>
+</tr>
+<tr>
+	<td>Age</td>
+	<td><input name='peon_age' type='number' class='form-control'></td>
+	<td>Address</td>
+	<td><input name='peon_address' type='text' class='form-control'></td>
+</tr>
+                    </table>  
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn apply-btn">Submit Application</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
